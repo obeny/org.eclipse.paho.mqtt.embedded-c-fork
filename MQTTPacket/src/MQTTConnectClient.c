@@ -24,7 +24,7 @@
   * @param options the options to be used to build the connect packet
   * @return the length of buffer needed to contain the serialized version of the packet
   */
-int MQTTSerialize_connectLength(MQTTPacket_connectData* options)
+static int MQTTSerialize_connectLength(MQTTPacket_connectData* options)
 {
 	int len = 0;
 
@@ -139,6 +139,7 @@ int MQTTDeserialize_connack(unsigned char* sessionPresent, unsigned char* connac
 	MQTTConnackFlags flags = {0};
 
 	FUNC_ENTRY;
+	(void)buflen;
 	header.byte = readChar(&curdata);
 	if (header.bits.type != CONNACK)
 		goto exit;
@@ -166,7 +167,7 @@ exit:
   * @param packettype the message type
   * @return serialized length, or error if 0
   */
-int MQTTSerialize_zero(unsigned char* buf, int buflen, unsigned char packettype)
+static int MQTTSerialize_zero(unsigned char* buf, int buflen, unsigned char packettype)
 {
 	MQTTHeader header = {0};
 	int rc = -1;
